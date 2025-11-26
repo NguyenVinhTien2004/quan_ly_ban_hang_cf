@@ -1,23 +1,21 @@
 // File chứa các hàm tiện ích
-class Utils {
-    // Smooth scrolling
-    static smoothScrollTo(targetId) {
-        const targetElement = document.querySelector(targetId);
-        if (targetElement) {
-            window.scrollTo({
-                top: targetElement.offsetTop - 80,
-                behavior: 'smooth'
-            });
-        }
-    }
+const Utils = {
+    // Format giá tiền
+    formatPrice: function(price) {
+        return new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+        }).format(price);
+    },
 
-    // Định dạng giá tiền
-    static formatPrice(price) {
-        return new Intl.NumberFormat('vi-VN').format(price) + ' ₫';
-    }
+    // Validate email
+    validateEmail: function(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    },
 
     // Debounce function
-    static debounce(func, wait) {
+    debounce: function(func, wait) {
         let timeout;
         return function executedFunction(...args) {
             const later = () => {
@@ -27,69 +25,48 @@ class Utils {
             clearTimeout(timeout);
             timeout = setTimeout(later, wait);
         };
-    }
+    },
 
-    // Validate email
-    static validateEmail(email) {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(email);
-    }
+    // Smooth scroll
+    smoothScrollTo: function(target) {
+        const element = document.querySelector(target);
+        if (element) {
+            element.scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+    },
 
     // Show notification
-    static showNotification(message, type = 'info') {
-        // Có thể thay thế bằng toast notification library
-        alert(message);
-    }
-
-    // Local storage helpers
-    static saveToStorage(key, data) {
-        try {
-            localStorage.setItem(key, JSON.stringify(data));
-        } catch (error) {
-            console.error('Error saving to localStorage:', error);
-        }
-    }
-
-    static getFromStorage(key) {
-        try {
-            const data = localStorage.getItem(key);
-            return data ? JSON.parse(data) : null;
-        } catch (error) {
-            console.error('Error reading from localStorage:', error);
-            return null;
-        }
-    }
-
-    // Format date
-    static formatDate(dateString) {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('vi-VN');
-    }
-
-    // Generate star rating HTML
-    static generateStarRating(rating, maxStars = 5) {
-        let starsHTML = '';
-        const fullStars = Math.floor(rating);
-        const hasHalfStar = rating % 1 !== 0;
+    showNotification: function(message, type = 'info') {
+        // Tạo notification element
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
         
-        for (let i = 0; i < fullStars; i++) {
-            starsHTML += '<i class="fas fa-star"></i>';
-        }
+        // Style cho notification
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            z-index: 9999;
+            animation: slideIn 0.3s ease;
+        `;
         
-        if (hasHalfStar) {
-            starsHTML += '<i class="fas fa-star-half-alt"></i>';
-        }
+        document.body.appendChild(notification);
         
-        const emptyStars = maxStars - fullStars - (hasHalfStar ? 1 : 0);
-        for (let i = 0; i < emptyStars; i++) {
-            starsHTML += '<i class="far fa-star"></i>';
-        }
-        
-        return starsHTML;
-    }
+        // Tự động xóa sau 3 giây
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    },
 
     // Lazy load images
-    static lazyLoadImages() {
+    lazyLoadImages: function() {
         const images = document.querySelectorAll('img[data-src]');
         const imageObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
@@ -103,10 +80,10 @@ class Utils {
         });
 
         images.forEach(img => imageObserver.observe(img));
-    }
+    },
 
     // Animate on scroll
-    static animateOnScroll() {
+    animateOnScroll: function() {
         const elements = document.querySelectorAll('.animate-on-scroll');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -118,4 +95,4 @@ class Utils {
 
         elements.forEach(el => observer.observe(el));
     }
-}
+};
