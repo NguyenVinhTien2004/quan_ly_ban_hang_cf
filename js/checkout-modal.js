@@ -577,9 +577,12 @@ class CheckoutModal {
             background: rgba(0,0,0,0.7);
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             z-index: 2000;
             animation: fadeIn 0.3s ease;
+            overflow-y: auto;
+            padding: 20px;
+            box-sizing: border-box;
         `;
         
         const totalAmount = this.modal.querySelector('#modalTotalAmount').textContent;
@@ -843,6 +846,17 @@ class CheckoutModal {
                 100% {
                     transform: scale(1);
                 }
+            }
+            
+            .success-modal {
+                align-items: flex-start !important;
+                overflow-y: auto !important;
+            }
+            
+            .success-modal .success-content {
+                margin: auto !important;
+                max-height: 90vh !important;
+                overflow-y: auto !important;
             }
         `;
         document.head.appendChild(style);
