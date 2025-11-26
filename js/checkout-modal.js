@@ -291,7 +291,7 @@ class CheckoutModal {
                     <div class="payment-summary" style="
                         background: white;
                         padding: 15px 20px;
-                        margin-bottom: 60px;
+                        margin-bottom: 80px;
                     ">
                         <div class="order-totals">
                             <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px;">
