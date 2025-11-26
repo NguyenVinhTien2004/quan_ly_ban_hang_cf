@@ -30,37 +30,37 @@ class CheckoutModal {
             background: rgba(0,0,0,0.5);
             display: none;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             z-index: 1000;
-            padding: 20px;
+            padding: 0;
+            overflow-y: auto;
         `;
 
         modal.innerHTML = `
             <div class="checkout-modal-content" style="
-                background: white;
-                border-radius: 10px;
+                background: #f5f5f5;
                 width: 100%;
-                max-width: 900px;
-                max-height: 90vh;
-                overflow-y: auto;
+                min-height: 100vh;
                 position: relative;
             ">
                 <div class="modal-header" style="
-                    padding: 20px 30px;
+                    background: white;
+                    padding: 15px 20px;
                     border-bottom: 1px solid #eee;
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
                     position: sticky;
                     top: 0;
-                    background: white;
-                    z-index: 1;
+                    z-index: 10;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
                 ">
-                    <h2 style="color: var(--primary); margin: 0;">
-                        <i class="fas fa-shopping-bag"></i> Thanh toán đơn hàng
+                    <h2 style="color: var(--primary); margin: 0; font-size: 18px;">
+                        <i class="fas fa-arrow-left close-checkout" style="margin-right: 10px; cursor: pointer;"></i>
+                        Thanh toán
                     </h2>
                     <span class="close-checkout" style="
-                        font-size: 24px;
+                        font-size: 20px;
                         cursor: pointer;
                         color: #999;
                         padding: 5px;
@@ -68,115 +68,108 @@ class CheckoutModal {
                 </div>
 
                 <div class="modal-body" style="
-                    display: grid;
-                    grid-template-columns: 1fr 350px;
-                    gap: 30px;
-                    padding: 30px;
+                    display: block;
+                    padding: 0;
                 ">
+                    <!-- Địa chỉ giao hàng -->
+                    <div class="address-section" style="
+                        background: white;
+                        margin-bottom: 10px;
+                        padding: 15px 20px;
+                    ">
+                        <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                            <i class="fas fa-map-marker-alt" style="color: var(--primary); margin-right: 10px;"></i>
+                            <span style="font-weight: 600; color: var(--dark);">Địa chỉ nhận hàng</span>
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <input type="text" id="modalFullName" placeholder="Họ và tên" style="
+                                width: 100%;
+                                padding: 12px 15px;
+                                border: 1px solid #ddd;
+                                border-radius: 4px;
+                                margin-bottom: 10px;
+                                font-size: 14px;
+                            ">
+                            <input type="tel" id="modalPhone" placeholder="Số điện thoại" style="
+                                width: 100%;
+                                padding: 12px 15px;
+                                border: 1px solid #ddd;
+                                border-radius: 4px;
+                                margin-bottom: 10px;
+                                font-size: 14px;
+                            ">
+                            <textarea id="modalAddress" placeholder="Địa chỉ cụ thể" rows="2" style="
+                                width: 100%;
+                                padding: 12px 15px;
+                                border: 1px solid #ddd;
+                                border-radius: 4px;
+                                font-size: 14px;
+                                resize: vertical;
+                            "></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Sản phẩm -->
+                    <div class="products-section" style="
+                        background: white;
+                        margin-bottom: 10px;
+                        padding: 15px 20px;
+                    ">
+                        <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                            <i class="fas fa-shopping-bag" style="color: var(--primary); margin-right: 10px;"></i>
+                            <span style="font-weight: 600; color: var(--dark);">Sản phẩm đã chọn</span>
+                        </div>
+                        <div id="modalOrderItems"></div>
+                    </div>
+
                     <!-- Form thanh toán -->
-                    <div class="checkout-form">
+                    <div class="checkout-form" style="background: white; padding: 15px 20px; margin-bottom: 10px;">
                         <form id="checkoutModalForm" novalidate>
-                            <div class="section-title" style="margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--light);">
-                                <h3 style="color: var(--primary); margin: 0;">
-                                    <i class="fas fa-user"></i> Thông tin khách hàng
-                                </h3>
+                            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                                <i class="fas fa-credit-card" style="color: var(--primary); margin-right: 10px;"></i>
+                                <span style="font-weight: 600; color: var(--dark);">Phương thức thanh toán</span>
                             </div>
                             
-                            <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
-                                <div class="form-group">
-                                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--dark); font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Họ và tên *</label>
-                                    <input type="text" id="modalFullName" class="form-control" required placeholder="Nhập họ và tên" style="
-                                        width: 100%;
-                                        padding: 15px 18px;
-                                        border: 2px solid #e1e5e9;
-                                        border-radius: 12px;
-                                        font-size: 15px;
-                                        background: linear-gradient(145deg, #ffffff, #f8f9fa);
-                                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-                                    ">
-                                </div>
-                                <div class="form-group">
-                                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--dark); font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Số điện thoại *</label>
-                                    <input type="tel" id="modalPhone" class="form-control" required placeholder="Nhập số điện thoại" style="
-                                        width: 100%;
-                                        padding: 15px 18px;
-                                        border: 2px solid #e1e5e9;
-                                        border-radius: 12px;
-                                        font-size: 15px;
-                                        background: linear-gradient(145deg, #ffffff, #f8f9fa);
-                                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-                                    ">
-                                </div>
-                            </div>
-                            
-                            <div class="form-group" style="margin-bottom: 15px;">
-                                <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--dark); font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Email *</label>
-                                <input type="email" id="modalEmail" class="form-control" required placeholder="Nhập email" style="
-                                    width: 100%;
-                                    padding: 15px 18px;
-                                    border: 2px solid #e1e5e9;
-                                    border-radius: 12px;
-                                    font-size: 15px;
-                                    background: linear-gradient(145deg, #ffffff, #f8f9fa);
-                                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-                                ">
-                            </div>
-                            
-                            <div class="form-group" style="margin-bottom: 15px;">
-                                <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--dark); font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Địa chỉ giao hàng *</label>
-                                <textarea id="modalAddress" class="form-control" rows="2" required placeholder="Nhập địa chỉ giao hàng chi tiết" style="
-                                    width: 100%;
-                                    padding: 15px 18px;
-                                    border: 2px solid #e1e5e9;
-                                    border-radius: 12px;
-                                    font-size: 15px;
-                                    background: linear-gradient(145deg, #ffffff, #f8f9fa);
-                                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-                                    resize: vertical;
-                                    min-height: 80px;
-                                "></textarea>
-                            </div>
-                            
-                            <div class="section-title" style="margin: 25px 0 20px 0; padding-bottom: 10px; border-bottom: 2px solid var(--light);">
-                                <h3 style="color: var(--primary); margin: 0;">
-                                    <i class="fas fa-credit-card"></i> Phương thức thanh toán
-                                </h3>
-                            </div>
-                            
-                            <div class="payment-methods" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                            <input type="email" id="modalEmail" placeholder="Email (tùy chọn)" style="
+                                width: 100%;
+                                padding: 12px 15px;
+                                border: 1px solid #ddd;
+                                border-radius: 4px;
+                                margin-bottom: 15px;
+                                font-size: 14px;
+                            ">
+                            <div class="payment-methods" style="margin-bottom: 20px;">
                                 <div class="payment-method" data-method="cash" style="
-                                    border: 2px solid #ddd;
-                                    border-radius: 12px;
-                                    padding: 20px 15px;
-                                    text-align: center;
+                                    border: 1px solid #ddd;
+                                    border-radius: 4px;
+                                    padding: 15px;
+                                    margin-bottom: 10px;
                                     cursor: pointer;
                                     transition: all 0.3s;
-                                    background: linear-gradient(145deg, #ffffff, #f8f9fa);
-                                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-                                    position: relative;
+                                    display: flex;
+                                    align-items: center;
                                 ">
-                                    <i class="fas fa-money-bill-wave" style="font-size: 28px; margin-bottom: 12px; color: var(--primary);"></i>
-                                    <span style="display: block; font-weight: 600; font-size: 15px;">Tiền mặt</span>
-                                    <small style="display: block; color: #666; margin-top: 5px; font-size: 12px;">Thanh toán khi nhận hàng</small>
+                                    <i class="fas fa-money-bill-wave" style="color: var(--primary); margin-right: 15px; font-size: 20px;"></i>
+                                    <div>
+                                        <div style="font-weight: 600; margin-bottom: 2px;">Thanh toán khi nhận hàng</div>
+                                        <small style="color: #666;">Tiền mặt/Thẻ</small>
+                                    </div>
                                 </div>
                                 <div class="payment-method" data-method="banking" style="
-                                    border: 2px solid #ddd;
-                                    border-radius: 12px;
-                                    padding: 20px 15px;
-                                    text-align: center;
+                                    border: 1px solid #ddd;
+                                    border-radius: 4px;
+                                    padding: 15px;
+                                    margin-bottom: 10px;
                                     cursor: pointer;
                                     transition: all 0.3s;
-                                    background: linear-gradient(145deg, #ffffff, #f8f9fa);
-                                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-                                    position: relative;
+                                    display: flex;
+                                    align-items: center;
                                 ">
-                                    <i class="fas fa-university" style="font-size: 28px; margin-bottom: 12px; color: var(--primary);"></i>
-                                    <span style="display: block; font-weight: 600; font-size: 15px;">Chuyển khoản</span>
-                                    <small style="display: block; color: #666; margin-top: 5px; font-size: 12px;">Chuyển khoản ngân hàng</small>
+                                    <i class="fas fa-university" style="color: var(--primary); margin-right: 15px; font-size: 20px;"></i>
+                                    <div>
+                                        <div style="font-weight: 600; margin-bottom: 2px;">Chuyển khoản ngân hàng</div>
+                                        <small style="color: #666;">Chuyển khoản trực tiếp</small>
+                                    </div>
                                 </div>
                             </div>
                             
@@ -281,74 +274,96 @@ class CheckoutModal {
                                 </div>
                             </div>
                             
-                            <div class="form-group" style="margin-bottom: 20px;">
-                                <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--dark); font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Ghi chú đơn hàng</label>
-                                <textarea id="modalNotes" class="form-control" rows="2" placeholder="Ghi chú cho đơn hàng (tùy chọn)" style="
-                                    width: 100%;
-                                    padding: 15px 18px;
-                                    border: 2px solid #e1e5e9;
-                                    border-radius: 12px;
-                                    font-size: 15px;
-                                    background: linear-gradient(145deg, #ffffff, #f8f9fa);
-                                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-                                    resize: vertical;
-                                    min-height: 70px;
-                                "></textarea>
-                            </div>
-                            
-                            <button type="submit" class="btn" style="
+                            <textarea id="modalNotes" placeholder="Lời nhắn cho người bán (tùy chọn)" rows="2" style="
                                 width: 100%;
-                                padding: 15px;
-                                background-color: var(--primary);
-                                color: white;
-                                border: none;
-                                border-radius: 8px;
-                                font-size: 16px;
-                                font-weight: 600;
-                                cursor: pointer;
-                                transition: background-color 0.3s;
-                            ">
-                                <i class="fas fa-shopping-bag"></i> Hoàn tất đơn hàng
-                            </button>
+                                padding: 12px 15px;
+                                border: 1px solid #ddd;
+                                border-radius: 4px;
+                                font-size: 14px;
+                                resize: vertical;
+                                margin-bottom: 15px;
+                            "></textarea>
+                        </form>
                         </form>
                     </div>
                     
-                    <!-- Tóm tắt đơn hàng -->
-                    <div class="order-summary" style="
-                        background: #f8f9fa;
-                        padding: 20px;
-                        border-radius: 8px;
-                        height: fit-content;
+                    <!-- Tóm tắt thanh toán -->
+                    <div class="payment-summary" style="
+                        background: white;
+                        padding: 15px 20px;
+                        margin-bottom: 60px;
                     ">
-                        <h3 style="color: var(--primary); margin-bottom: 15px;">
-                            <i class="fas fa-receipt"></i> Đơn hàng của bạn
-                        </h3>
-                        
-                        <div id="modalOrderItems"></div>
-                        
-                        <div class="order-totals" style="margin-top: 15px; padding-top: 15px; border-top: 2px solid #ddd;">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                <span>Tạm tính:</span>
+                        <div class="order-totals">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px;">
+                                <span>Tổng tiền hàng:</span>
                                 <span id="modalSubtotal">0 ₫</span>
                             </div>
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px;">
                                 <span>Phí vận chuyển:</span>
                                 <span id="modalShippingFee">0 ₫</span>
                             </div>
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px;">
                                 <span>Giảm giá:</span>
                                 <span id="modalDiscount">0 ₫</span>
                             </div>
-                            <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: 600; color: var(--primary); margin-top: 10px; padding-top: 10px; border-top: 1px solid #ddd;">
-                                <span>Tổng cộng:</span>
+                            <hr style="margin: 10px 0; border: none; border-top: 1px solid #eee;">
+                            <div style="display: flex; justify-content: space-between; font-size: 16px; font-weight: 600; color: var(--primary);">
+                                <span>Tổng thanh toán:</span>
                                 <span id="modalTotalAmount">0 ₫</span>
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Nút đặt hàng cố định -->
+                    <div class="checkout-footer" style="
+                        position: fixed;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+                        background: white;
+                        padding: 15px 20px;
+                        border-top: 1px solid #eee;
+                        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+                        z-index: 10;
+                    ">
+                        <button type="submit" form="checkoutModalForm" style="
+                            width: 100%;
+                            padding: 15px;
+                            background: var(--primary);
+                            color: white;
+                            border: none;
+                            border-radius: 4px;
+                            font-size: 16px;
+                            font-weight: 600;
+                            cursor: pointer;
+                        ">
+                            Đặt hàng
+                        </button>
+                    </div>
                 </div>
             </div>
         `;
+        
+        // Thêm CSS cho mobile
+        const style = document.createElement('style');
+        style.textContent = `
+            @media (max-width: 768px) {
+                .checkout-modal-content {
+                    border-radius: 0 !important;
+                }
+                .modal-header h2 {
+                    font-size: 16px !important;
+                }
+                .payment-method:hover {
+                    background-color: #f8f9fa;
+                }
+                .payment-method.selected {
+                    border-color: var(--primary) !important;
+                    background-color: rgba(139, 69, 19, 0.05) !important;
+                }
+            }
+        `;
+        document.head.appendChild(style);
 
         document.body.appendChild(modal);
         this.modal = modal;
@@ -358,7 +373,9 @@ class CheckoutModal {
 
     setupEvents() {
         // Đóng modal
-        this.modal.querySelector('.close-checkout').addEventListener('click', () => this.close());
+        this.modal.querySelectorAll('.close-checkout').forEach(btn => {
+            btn.addEventListener('click', () => this.close());
+        });
         this.modal.addEventListener('click', (e) => {
             if (e.target === this.modal) this.close();
         });
@@ -868,7 +885,7 @@ class CheckoutModal {
         const transferAmountElement = this.modal.querySelector('#modalTransferAmount');
         
         if (this.cart.length === 0) {
-            orderItems.innerHTML = '<p style="text-align: center; color: #666;">Giỏ hàng trống</p>';
+            orderItems.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">Giỏ hàng trống</p>';
             return;
         }
         
@@ -882,30 +899,33 @@ class CheckoutModal {
         const discount = subtotal > 150000 ? subtotal * 0.1 : 0;
         const total = subtotal + shippingFee - discount;
         
-        // Hiển thị sản phẩm
+        // Hiển thị sản phẩm theo style Shopee
         orderItems.innerHTML = '';
-        this.cart.forEach(item => {
+        this.cart.forEach((item, index) => {
             const orderItem = document.createElement('div');
             orderItem.style.cssText = `
                 display: flex;
                 align-items: center;
-                padding: 10px 0;
-                border-bottom: 1px solid #eee;
+                padding: 15px 0;
+                ${index < this.cart.length - 1 ? 'border-bottom: 1px solid #f0f0f0;' : ''}
             `;
             orderItem.innerHTML = `
                 <div style="
-                    width: 40px;
-                    height: 40px;
-                    border-radius: 6px;
+                    width: 60px;
+                    height: 60px;
+                    border-radius: 4px;
                     overflow: hidden;
-                    margin-right: 10px;
+                    margin-right: 12px;
+                    border: 1px solid #f0f0f0;
                 ">
                     <img src="${item.image}" alt="${item.name}" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
                 <div style="flex: 1;">
-                    <div style="font-weight: 500; font-size: 14px; margin-bottom: 2px;">${item.name}</div>
-                    <div style="color: var(--primary); font-weight: 600; font-size: 13px;">${Utils.formatPrice(item.price)}</div>
-                    <div style="color: #666; font-size: 12px;">SL: ${item.quantity}</div>
+                    <div style="font-size: 14px; margin-bottom: 4px; line-height: 1.3;">${item.name}</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: var(--primary); font-weight: 600; font-size: 14px;">${Utils.formatPrice(item.price)}</span>
+                        <span style="color: #666; font-size: 14px;">x${item.quantity}</span>
+                    </div>
                 </div>
             `;
             orderItems.appendChild(orderItem);
@@ -916,59 +936,33 @@ class CheckoutModal {
         shippingFeeElement.textContent = Utils.formatPrice(shippingFee);
         discountElement.textContent = Utils.formatPrice(discount);
         totalAmountElement.textContent = Utils.formatPrice(total);
-        transferAmountElement.textContent = Utils.formatPrice(total);
+        if (transferAmountElement) {
+            transferAmountElement.textContent = Utils.formatPrice(total);
+        }
         
         this.updateTransferNote();
         this.updateCashAmount();
     }
 
     processOrder() {
-        console.log('Starting order process...'); // Debug
-        
         // Kiểm tra thông tin cơ bản
         const fullName = this.modal.querySelector('#modalFullName').value.trim();
         const phone = this.modal.querySelector('#modalPhone').value.trim();
-        const email = this.modal.querySelector('#modalEmail').value.trim();
         const address = this.modal.querySelector('#modalAddress').value.trim();
         
-        console.log('Customer info:', { fullName, phone, email, address }); // Debug
-        
-        if (!fullName || !phone || !email || !address) {
-            alert('Vui lòng điền đầy đủ thông tin khách hàng!');
+        if (!fullName || !phone || !address) {
+            alert('Vui lòng điền đầy đủ thông tin giao hàng!');
             return;
         }
-        
-        console.log('Selected payment method:', this.selectedPaymentMethod); // Debug
         
         if (!this.selectedPaymentMethod) {
             alert('Vui lòng chọn phương thức thanh toán!');
             return;
         }
         
-        // Chỉ kiểm tra thông tin ngân hàng khi chọn phương thức chuyển khoản
-        if (this.selectedPaymentMethod === 'banking') {
-            if (!this.selectedBank) {
-                alert('Vui lòng chọn ngân hàng!');
-                return;
-            }
-            
-            const customerAccountHolder = this.modal.querySelector('#modalCustomerAccountHolder').value.trim();
-            const customerAccountNumber = this.modal.querySelector('#modalCustomerAccountNumber').value.trim();
-            const customerBranch = this.modal.querySelector('#modalCustomerBranch').value.trim();
-            
-            if (!customerAccountHolder || !customerAccountNumber || !customerBranch) {
-                alert('Vui lòng điền đầy đủ thông tin tài khoản của bạn!');
-                return;
-            }
-        }
-        
-        console.log('Processing order with payment method:', this.selectedPaymentMethod); // Debug
-        
         // Hiển thị modal thông báo thành công
         const orderCode = 'MD' + Date.now().toString().slice(-6);
         this.showSuccessModal(orderCode);
-        
-        // Sẽ xóa giỏ hàng và đóng modal sau khi người dùng đóng success modal
     }
 }
 
