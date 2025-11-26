@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mocha Delight - Thương hiệu cà phê Việt</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <div class="logo-text">Mocha Delight</div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Trang chủ</a></li>
+                    <li><a href="#products">Sản phẩm</a></li>
+                    <li><a href="#about">Về chúng tôi</a></li>
+                    <li><a href="#stores">Cửa hàng</a></li>
+                    <li><a href="#news">Tin tức</a></li>
+                    <li><a href="#contact">Liên hệ</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Tìm kiếm sản phẩm...">
+                </div>
+                <a href="#" id="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+                <a href="#" class="btn" onclick="openCartForOrder()">Đặt hàng</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container hero-content">
+            <h1>Trải nghiệm hương vị cà phê đích thực</h1>
+            <p>Mocha Delight mang đến những ly cà phê thượng hạng từ những hạt cà phê rang xay được tuyển chọn kỹ lưỡng</p>
+            <div class="hero-btns">
+                <a href="#products" class="btn">Khám phá ngay</a>
+                <a href="#stores" class="btn btn-outline">Tìm cửa hàng</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sản phẩm nổi bật -->
+    <section class="products" id="products">
+        <div class="container">
+            <div class="section-title">
+                <h2>Sản phẩm nổi bật</h2>
+                <p>Khám phá những hương vị cà phê đặc biệt được yêu thích nhất tại Mocha Delight</p>
+            </div>
+            
+            <div class="product-filters">
+                <button class="filter-btn active" data-filter="all">Tất cả</button>
+                <button class="filter-btn" data-filter="coffee">Cà phê</button>
+                <button class="filter-btn" data-filter="special">Đặc biệt</button>
+                <button class="filter-btn" data-filter="cold">Đá xay</button>
+            </div>
+            
+            <div class="product-grid">
+                <!-- Sản phẩm sẽ được render từ JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Về chúng tôi -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Câu chuyện của Mocha Delight</h3>
+                    <p>Được thành lập từ năm 2010, Mocha Delight bắt đầu từ tình yêu với hạt cà phê Việt Nam và khát vọng mang đến cho khách hàng những trải nghiệm cà phê tuyệt vời nhất.</p>
+                    <p>Chúng tôi tự hào là thương hiệu cà phê Việt với quy trình khép kín từ trang trại đến tách cà phê, đảm bảo chất lượng và hương vị thuần khiết nhất.</p>
+                    <div class="features">
+                        <div class="feature">
+                            <i class="fas fa-coffee"></i>
+                            <div>
+                                <h4>Hạt cà phê chất lượng</h4>
+                                <p>Tuyển chọn từ những vùng trồng cà phê nổi tiếng</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-leaf"></i>
+                            <div>
+                                <h4>Nguyên liệu tự nhiên</h4>
+                                <p>Cam kết sử dụng nguyên liệu tươi ngon, an toàn</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-award"></i>
+                            <div>
+                                <h4>Quy trình chuẩn</h4>
+                                <p>Rang xay và pha chế theo quy trình chuẩn quốc tế</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-heart"></i>
+                            <div>
+                                <h4>Phục vụ tận tâm</h4>
+                                <p>Đội ngũ nhân viên chuyên nghiệp, thân thiện</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-img">
+                    <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1147&q=80" alt="Về chúng tôi">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cửa hàng -->
+    <section class="stores" id="stores">
+        <div class="container">
+            <div class="section-title">
+                <h2>Hệ thống cửa hàng</h2>
+                <p>Ghé thăm các cửa hàng Mocha Delight để trải nghiệm không gian và hương vị tuyệt vời</p>
+            </div>
+            <div class="store-grid">
+                <div class="store-card">
+                    <div class="store-img">
+                        <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80" alt="Cửa hàng Quận 1">
+                    </div>
+                    <div class="store-info">
+                        <h3>Mocha Delight Quận 1</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> 123 Nguyễn Huệ, P. Bến Nghé, Quận 1, TP.HCM</p>
+                        <p><i class="fas fa-clock"></i> 7:00 - 22:00 (T2 - CN)</p>
+                        <p><i class="fas fa-phone"></i> 028 3827 3827</p>
+                    </div>
+                </div>
+                <div class="store-card">
+                    <div class="store-img">
+                        <img src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80" alt="Cửa hàng Quận 3">
+                    </div>
+                    <div class="store-info">
+                        <h3>Mocha Delight Quận 3</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> 456 Lê Văn Sỹ, P. 12, Quận 3, TP.HCM</p>
+                        <p><i class="fas fa-clock"></i> 7:00 - 22:00 (T2 - CN)</p>
+                        <p><i class="fas fa-phone"></i> 028 3928 3928</p>
+                    </div>
+                </div>
+                <div class="store-card">
+                    <div class="store-img">
+                        <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1178&q=80" alt="Cửa hàng Quận 7">
+                    </div>
+                    <div class="store-info">
+                        <h3>Mocha Delight Quận 7</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> 789 Nguyễn Văn Linh, P. Tân Phong, Quận 7, TP.HCM</p>
+                        <p><i class="fas fa-clock"></i> 7:00 - 22:00 (T2 - CN)</p>
+                        <p><i class="fas fa-phone"></i> 028 5412 5412</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tin tức -->
+    <section class="news" id="news">
+        <div class="container">
+            <div class="section-title">
+                <h2>Tin tức & Sự kiện</h2>
+                <p>Cập nhật những thông tin mới nhất về Mocha Delight và thế giới cà phê</p>
+            </div>
+            <div class="news-grid">
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80" alt="Mùa hè rực rỡ">
+                    </div>
+                    <div class="news-info">
+                        <div class="news-date">15/06/2023</div>
+                        <h3>Mùa hè rực rỡ - Ưu đãi đến 30%</h3>
+                        <p>Đón hè sôi động cùng Mocha Delight với hàng loạt ưu đãi hấp dẫn lên đến 30% cho tất cả các sản phẩm</p>
+                        <a href="#" class="read-more">Đọc thêm <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Workshop Barista">
+                    </div>
+                    <div class="news-info">
+                        <div class="news-date">02/06/2023</div>
+                        <h3>Workshop Barista chuyên nghiệp</h3>
+                        <p>Tham gia workshop Barista chuyên nghiệp để học cách pha chế những ly cà phê hoàn hảo từ các chuyên gia</p>
+                        <a href="#" class="read-more">Đọc thêm <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1174&q=80" alt="Cà phê hữu cơ">
+                    </div>
+                    <div class="news-info">
+                        <div class="news-date">20/05/2023</div>
+                        <h3>Ra mắt dòng cà phê hữu cơ mới</h3>
+                        <p>Mocha Delight chính thức ra mắt dòng sản phẩm cà phê hữu cơ cao cấp, thân thiện với môi trường</p>
+                        <a href="#" class="read-more">Đọc thêm <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Đăng ký nhận tin -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2>Đăng ký nhận tin</h2>
+                <p>Đăng ký để nhận thông tin khuyến mãi và tin tức mới nhất từ Mocha Delight</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Nhập email của bạn" required>
+                    <button type="submit">Đăng ký</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h3>Mocha Delight</h3>
+                    <p>Thương hiệu cà phê Việt với hương vị đậm đà và không gian thoải mái, mang đến trải nghiệm tuyệt vời cho khách hàng.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Liên kết nhanh</h3>
+                    <ul>
+                        <li><a href="#home">Trang chủ</a></li>
+                        <li><a href="#products">Sản phẩm</a></li>
+                        <li><a href="#about">Về chúng tôi</a></li>
+                        <li><a href="#stores">Cửa hàng</a></li>
+                        <li><a href="#news">Tin tức</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Chính sách</h3>
+                    <ul>
+                        <li><a href="#">Chính sách bảo mật</a></li>
+                        <li><a href="#">Điều khoản sử dụng</a></li>
+                        <li><a href="#">Chính sách vận chuyển</a></li>
+                        <li><a href="#">Chính sách đổi trả</a></li>
+                        <li><a href="#">Hướng dẫn mua hàng</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Liên hệ</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Nguyễn Huệ, Q.1, TP.HCM</li>
+                        <li><i class="fas fa-phone"></i> 028 3827 3827</li>
+                        <li><i class="fas fa-envelope"></i> info@mochadelight.com</li>
+                        <li><i class="fas fa-clock"></i> 7:00 - 22:00 (T2 - CN)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Mocha Delight. Tất cả các quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal chi tiết sản phẩm -->
+    <div class="modal" id="product-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body">
+                <div class="modal-img">
+                    <img id="modal-product-image" src="" alt="">
+                </div>
+                <div class="modal-info">
+                    <h2 id="modal-product-name"></h2>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span>(128)</span>
+                    </div>
+                    <div class="modal-price" id="modal-product-price"></div>
+                    <p class="modal-description" id="modal-product-description"></p>
+                    
+                    <div class="quantity-selector">
+                        <span>Số lượng:</span>
+                        <button class="quantity-btn minus">-</button>
+                        <input type="number" class="quantity-input" value="1" min="1">
+                        <button class="quantity-btn plus">+</button>
+                    </div>
+                    
+                    <button class="btn add-to-cart-modal" style="width: 100%;">Thêm vào giỏ hàng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Giỏ hàng sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3 class="cart-title">Giỏ hàng của bạn</h3>
+            <span class="close-cart">&times;</span>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <div class="empty-cart">
+                <i class="fas fa-shopping-cart" style="font-size: 48px; margin-bottom: 15px; opacity: 0.3;"></i>
+                <p>Giỏ hàng của bạn đang trống</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Tổng cộng:</span>
+                <span id="cart-total-price">0 ₫</span>
+            </div>
+            <button class="checkout-btn">Thanh toán</button>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/product-renderer.js"></script>
+    <script src="js/checkout-modal.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

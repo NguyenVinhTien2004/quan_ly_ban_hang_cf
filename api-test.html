@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API - Mocha Delight</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        button { padding: 10px 15px; margin: 5px; background: #8B4513; color: white; border: none; cursor: pointer; }
+        .result { background: #f5f5f5; padding: 10px; margin: 10px 0; white-space: pre-wrap; }
+        input, textarea { padding: 8px; margin: 5px; width: 200px; }
+    </style>
+</head>
+<body>
+    <h1>Test API Mocha Delight</h1>
+
+    <div class="test-section">
+        <h3>1. Lấy danh sách sản phẩm</h3>
+        <button onclick="getProducts()">GET /api/products</button>
+        <div id="products-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>2. Lấy danh sách cửa hàng</h3>
+        <button onclick="getStores()">GET /api/stores</button>
+        <div id="stores-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>3. Lấy tin tức</h3>
+        <button onclick="getNews()">GET /api/news</button>
+        <div id="news-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>4. Đặt hàng</h3>
+        <input type="number" id="productId" placeholder="Product ID" value="1">
+        <input type="number" id="quantity" placeholder="Số lượng" value="2">
+        <input type="text" id="customerName" placeholder="Tên khách hàng" value="Nguyễn Văn A">
+        <input type="text" id="customerPhone" placeholder="Số điện thoại" value="0901234567">
+        <br>
+        <button onclick="createOrder()">POST /api/orders</button>
+        <div id="order-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>5. Đăng ký nhận tin</h3>
+        <input type="email" id="email" placeholder="Email" value="test@example.com">
+        <button onclick="subscribeNewsletter()">POST /api/newsletter</button>
+        <div id="newsletter-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>6. Tìm kiếm sản phẩm</h3>
+        <input type="text" id="searchQuery" placeholder="Từ khóa tìm kiếm" value="cà phê">
+        <button onclick="searchProducts()">GET /api/search</button>
+        <div id="search-result" class="result"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3000/api';
+
+        async function getProducts() {
+            try {
+                const response = await fetch(`${API_BASE}/products`);
+                const data = await response.json();
+                document.getElementById('products-result').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('products-result').textContent = 'Error: ' + error.message;
+            }
+        }
+
+        async function getStores() {
+            try {
+                const response = await fetch(`${API_BASE}/stores`);
+                const data = await response.json();
+                document.getElementById('stores-result').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('stores-result').textContent = 'Error: ' + error.message;
+            }
+        }
+
+        async function getNews() {
+            try {
+                const response = await fetch(`${API_BASE}/news`);
+                const data = await response.json();
+                document.getElementById('news-result').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('news-result').textContent = 'Error: ' + error.message;
+            }
+        }
+
+        async function createOrder() {
+            try {
+                const orderData = {
+                    productId: parseInt(document.getElementById('productId').value),
+                    quantity: parseInt(document.getElementById('quantity').value),
+                    customerInfo: {
+                        name: document.getElementById('customerName').value,
+                        phone: document.getElementById('customerPhone').value
+                    }
+                };
+
+                const response = await fetch(`${API_BASE}/orders`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(orderData)
+                });
+
+                const data = await response.json();
+                document.getElementById('order-result').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('order-result').textContent = 'Error: ' + error.message;
+            }
+        }
+
+        async function subscribeNewsletter() {
+            try {
+                const email = document.getElementById('email').value;
+                const response = await fetch(`${API_BASE}/newsletter`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email })
+                });
+
+                const data = await response.json();
+                document.getElementById('newsletter-result').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('newsletter-result').textContent = 'Error: ' + error.message;
+            }
+        }
+
+        async function searchProducts() {
+            try {
+                const query = document.getElementById('searchQuery').value;
+                const response = await fetch(`${API_BASE}/search?q=${encodeURIComponent(query)}`);
+                const data = await response.json();
+                document.getElementById('search-result').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('search-result').textContent = 'Error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

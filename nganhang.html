@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán - Mocha Delight</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Biến màu sắc - Giữ nguyên từ trang chính */
+        :root {
+            --primary: #8B4513;
+            --secondary: #D2691E;
+            --accent: #F4A460;
+            --light: #FFF8DC;
+            --dark: #3E2723;
+            --text: #333333;
+            --white: #FFFFFF;
+        }
+        
+        /* Reset và cài đặt chung */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            color: var(--text);
+            background-color: var(--light);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-left: 10px;
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+        }
+        
+        .back-btn:hover {
+            background-color: var(--secondary);
+        }
+        
+        .back-btn i {
+            margin-right: 8px;
+        }
+        
+        /* Main content */
+        .checkout-container {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .checkout-form {
+            background: var(--white);
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            border: 1px solid rgba(139, 69, 19, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .checkout-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+        }
+        
+        .order-summary {
+            background: var(--white);
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            border: 1px solid rgba(139, 69, 19, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .order-summary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent), var(--primary));
+        }
+        
+        .section-title {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light);
+        }
+        
+        .section-title h2 {
+            font-size: 24px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title h2 i {
+            margin-right: 10px;
+            color: var(--accent);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+        
+        .form-group label::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+        
+        .form-group.required label::before {
+            content: '*';
+            color: #e74c3c;
+            margin-right: 4px;
+            font-weight: bold;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 16px;
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(139, 69, 19, 0.1), 0 4px 20px rgba(139, 69, 19, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .form-control:hover:not(:focus) {
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .form-control::placeholder {
+            color: #a0a6b1;
+            font-style: italic;
+            transition: opacity 0.3s;
+        }
+        
+        .form-control:focus::placeholder {
+            opacity: 0.7;
+            transform: translateX(5px);
+        }
+        
+        .input-icon {
+            position: relative;
+        }
+        
+        .input-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent);
+            z-index: 1;
+        }
+        
+        .input-icon .form-control {
+            padding-left: 45px;
+        }
+        
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .payment-method {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .payment-method:hover {
+            border-color: var(--primary);
+        }
+        
+        .payment-method.selected {
+            border-color: var(--primary);
+            background-color: rgba(139, 69, 19, 0.05);
+        }
+        
+        .payment-method i {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .payment-method span {
+            display: block;
+            font-weight: 500;
+        }
+        
+        /* Banking Info Section */
+        .banking-info {
+            display: none;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .banking-info.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .bank-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .bank-option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .bank-option:hover {
+            border-color: var(--primary);
+        }
+        
+        .bank-option.selected {
+            border-color: var(--primary);
+            background-color: rgba(139, 69, 19, 0.05);
+        }
+        
+        .bank-logo {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            background: #e9ecef;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 12px;
+            color: var(--primary);
+        }
+        
+        .bank-name {
+            font-weight: 500;
+        }
+        
+        .bank-account-info {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .account-details {
+            background: var(--light);
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+        
+        .account-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .account-row:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .account-label {
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .account-value {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .copy-btn {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background-color 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background: var(--secondary);
+        }
+        
+        /* Order items */
+        .order-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        
+        .order-item-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+        
+        .order-item-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .order-item-info {
+            flex: 1;
+        }
+        
+        .order-item-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .order-item-price {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .order-item-quantity {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .order-totals {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+        
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .total-row.final {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary);
+        }
+        
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        /* Success message */
+        .success-message {
+            display: none;
+            background: rgba(82, 196, 26, 0.1);
+            border: 1px solid #52c41a;
+            color: #52c41a;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        /* Loading */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .checkout-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+            
+            .bank-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="header-container">
+                <div class="logo">
+                    <div class="logo-text">Mocha Delight</div>
+                </div>
+                <a href="index.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Quay lại trang chủ
+                </a>
+            </div>
+        </header>
+
+        <h1 style="text-align: center; margin-bottom: 30px; color: var(--primary);">Thanh toán đơn hàng</h1>
+
+        <div class="checkout-container">
+            <!-- Thông tin thanh toán -->
+            <div class="checkout-form">
+                <div class="section-title">
+                    <h2><i class="fas fa-user"></i> Thông tin khách hàng</h2>
+                </div>
+                
+                <form id="checkoutForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Họ và tên *</label>
+                            <input type="text" id="fullName" class="form-control" required placeholder="Nhập họ và tên">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Số điện thoại *</label>
+                            <input type="tel" id="phone" class="form-control" required placeholder="Nhập số điện thoại">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" class="form-control" required placeholder="Nhập email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Địa chỉ giao hàng *</label>
+                        <textarea id="address" class="form-control" rows="3" required placeholder="Nhập địa chỉ giao hàng chi tiết"></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city">Thành phố *</label>
+                            <select id="city" class="form-control" required>
+                                <option value="">Chọn thành phố</option>
+                                <option value="hcm">TP. Hồ Chí Minh</option>
+                                <option value="hn">Hà Nội</option>
+                                <option value="dn">Đà Nẵng</option>
+                                <option value="ct">Cần Thơ</option>
+                                <option value="other">Khác</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="district">Quận/Huyện *</label>
+                            <input type="text" id="district" class="form-control" required placeholder="Nhập quận/huyện">
+                        </div>
+                    </div>
+                    
+                    <div class="section-title">
+                        <h2><i class="fas fa-credit-card"></i> Phương thức thanh toán</h2>
+                    </div>
+                    
+                    <div class="payment-methods">
+                        <div class="payment-method" data-method="cash">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <span>Tiền mặt</span>
+                        </div>
+                        <div class="payment-method" data-method="banking">
+                            <i class="fas fa-university"></i>
+                            <span>Chuyển khoản</span>
+                        </div>
+                    </div>
+                    <input type="hidden" id="paymentMethod" name="paymentMethod" required>
+                    
+                    <!-- Banking Information Section -->
+                    <div class="banking-info" id="bankingInfo">
+                        <h3 style="color: var(--primary); margin-bottom: 15px;">
+                            <i class="fas fa-university"></i> Thông tin chuyển khoản ngân hàng
+                        </h3>
+                        
+                        <div class="form-group">
+                            <label>Chọn ngân hàng *</label>
+                            <div class="bank-list" id="bankList">
+                                <!-- Banks will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <!-- Thông tin tài khoản khách hàng -->
+                        <div class="customer-bank-info" style="background: #fff; padding: 20px; border-radius: 8px; margin: 15px 0; border: 1px solid #e9ecef;">
+                            <h4 style="color: var(--dark); margin-bottom: 15px;">Thông tin tài khoản của bạn</h4>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="customerAccountHolder">Chủ tài khoản *</label>
+                                    <input type="text" id="customerAccountHolder" class="form-control" required placeholder="Nhập tên chủ tài khoản">
+                                </div>
+                                <div class="form-group">
+                                    <label for="customerAccountNumber">Số tài khoản *</label>
+                                    <input type="text" id="customerAccountNumber" class="form-control" required placeholder="Nhập số tài khoản">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="customerBranch">Chi nhánh *</label>
+                                    <input type="text" id="customerBranch" class="form-control" required placeholder="Nhập chi nhánh ngân hàng">
+                                </div>
+                                <div class="form-group">
+                                    <label for="customerTransferAmount">Số tiền chuyển khoản *</label>
+                                    <input type="text" id="customerTransferAmount" class="form-control" required placeholder="Nhập số tiền" readonly>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="customerTransferNote">Nội dung chuyển khoản</label>
+                                <input type="text" id="customerTransferNote" class="form-control" placeholder="Nhập nội dung chuyển khoản">
+                                <small style="color: #666; margin-top: 5px; display: block;">Ví dụ: Thanh toan don hang MD123456</small>
+                            </div>
+                        </div>
+                        
+                        <div class="bank-account-info">
+                            <h4 style="color: var(--dark); margin-bottom: 15px;">Thông tin tài khoản Mocha Delight</h4>
+                            
+                            <div class="account-details" id="accountDetails">
+                                <div class="account-row">
+                                    <span class="account-label">Chủ tài khoản:</span>
+                                    <span class="account-value" id="accountName">CÔNG TY TNHH MOCHA DELIGHT</span>
+                                    <button class="copy-btn" data-copy="accountName">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                </div>
+                                <div class="account-row">
+                                    <span class="account-label">Số tài khoản:</span>
+                                    <span class="account-value" id="accountNumber">1903 5678 9012 3456</span>
+                                    <button class="copy-btn" data-copy="accountNumber">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                </div>
+                                <div class="account-row">
+                                    <span class="account-label">Chi nhánh:</span>
+                                    <span class="account-value" id="accountBranch">Hồ Chí Minh</span>
+                                    <button class="copy-btn" data-copy="accountBranch">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                </div>
+                                <div class="account-row">
+                                    <span class="account-label">Số tiền:</span>
+                                    <span class="account-value" id="transferAmount">0 ₫</span>
+                                    <button class="copy-btn" data-copy="transferAmount">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group" style="margin-top: 20px;">
+                                <label for="transferNote">Nội dung chuyển khoản *</label>
+                                <input type="text" id="transferNote" class="form-control" readonly 
+                                       placeholder="Nội dung sẽ được tạo tự động">
+                                <small style="color: #666; margin-top: 5px; display: block;">
+                                    Vui lòng ghi đúng nội dung này khi chuyển khoản để chúng tôi có thể xác nhận đơn hàng của bạn nhanh nhất.
+                                </small>
+                            </div>
+                            
+                            <div style="background: #fff3cd; padding: 15px; border-radius: 6px; margin-top: 15px; border-left: 4px solid #ffc107;">
+                                <h5 style="color: #856404; margin-bottom: 10px;">
+                                    <i class="fas fa-exclamation-circle"></i> Lưu ý quan trọng
+                                </h5>
+                                <ul style="color: #856404; padding-left: 20px; margin: 0;">
+                                    <li>Vui lòng chuyển khoản đúng số tiền và nội dung như trên</li>
+                                    <li>Đơn hàng sẽ được xử lý trong vòng 15-30 phút sau khi nhận được thanh toán</li>
+                                    <li>Giữ lại biên lai chuyển khoản để đối chiếu khi cần</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section-title">
+                        <h2><i class="fas fa-sticky-note"></i> Ghi chú đơn hàng</h2>
+                    </div>
+                    
+                    <div class="form-group">
+                        <textarea id="notes" class="form-control" rows="3" placeholder="Ghi chú cho đơn hàng (tùy chọn)"></textarea>
+                    </div>
+                    
+                    <div class="success-message" id="successMessage"></div>
+                    
+                    <div class="loading" id="loading">
+                        <div class="spinner"></div>
+                        <p>Đang xử lý đơn hàng...</p>
+                    </div>
+                    
+                    <button type="submit" class="btn" id="submitBtn">
+                        <i class="fas fa-shopping-bag"></i> Hoàn tất đơn hàng
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Tóm tắt đơn hàng -->
+            <div class="order-summary">
+                <div class="section-title">
+                    <h2><i class="fas fa-receipt"></i> Đơn hàng của bạn</h2>
+                </div>
+                
+                <div id="orderItems">
+                    <!-- Các sản phẩm sẽ được thêm bằng JavaScript -->
+                    <div class="empty-order" style="text-align: center; padding: 20px; color: #666;">
+                        <i class="fas fa-shopping-cart" style="font-size: 48px; margin-bottom: 15px; opacity: 0.3;"></i>
+                        <p>Chưa có sản phẩm nào trong giỏ hàng</p>
+                    </div>
+                </div>
+                
+                <div class="order-totals">
+                    <div class="total-row">
+                        <span>Tạm tính:</span>
+                        <span id="subtotal">0 ₫</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Phí vận chuyển:</span>
+                        <span id="shippingFee">0 ₫</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Giảm giá:</span>
+                        <span id="discount">0 ₫</span>
+                    </div>
+                    <div class="total-row final">
+                        <span>Tổng cộng:</span>
+                        <span id="totalAmount">0 ₫</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dữ liệu ngân hàng
+        const banks = [
+            { code: 'VCB', name: 'Vietcombank', shortName: 'VCB' },
+            { code: 'BIDV', name: 'BIDV', shortName: 'BIDV' },
+            { code: 'AGB', name: 'Agribank', shortName: 'AGB' },
+            { code: 'TCB', name: 'Techcombank', shortName: 'TCB' },
+            { code: 'MB', name: 'MB Bank', shortName: 'MB' },
+            { code: 'VCB', name: 'VPBank', shortName: 'VPB' },
+            { code: 'STB', name: 'Sacombank', shortName: 'STB' },
+            { code: 'ACB', name: 'ACB', shortName: 'ACB' },
+            { code: 'TPB', name: 'TPBank', shortName: 'TPB' },
+            { code: 'HDB', name: 'HDBank', shortName: 'HDB' },
+            { code: 'MSB', name: 'MSB', shortName: 'MSB' },
+            { code: 'VIB', name: 'VIB', shortName: 'VIB' },
+            { code: 'SCB', name: 'SCB', shortName: 'SCB' },
+            { code: 'OCB', name: 'OCB', shortName: 'OCB' },
+            { code: 'SHB', name: 'SHB', shortName: 'SHB' }
+        ];
+
+        // Thông tin tài khoản công ty
+        const companyAccount = {
+            name: "CÔNG TY TNHH MOCHA DELIGHT",
+            number: "1903 5678 9012 3456",
+            branch: "Hồ Chí Minh"
+        };
+
+        // Lấy giỏ hàng từ localStorage
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let selectedPaymentMethod = '';
+        let selectedBank = null;
+
+        // Hàm định dạng tiền
+        function formatPrice(price) {
+            return new Intl.NumberFormat('vi-VN').format(price) + ' ₫';
+        }
+
+        // Hàm cập nhật tóm tắt đơn hàng
+        function updateOrderSummary() {
+            const orderItems = document.getElementById('orderItems');
+            const subtotalElement = document.getElementById('subtotal');
+            const shippingFeeElement = document.getElementById('shippingFee');
+            const discountElement = document.getElementById('discount');
+            const totalAmountElement = document.getElementById('totalAmount');
+            const transferAmountElement = document.getElementById('transferAmount');
+            
+            if (cart.length === 0) {
+                orderItems.innerHTML = `
+                    <div class="empty-order" style="text-align: center; padding: 20px; color: #666;">
+                        <i class="fas fa-shopping-cart" style="font-size: 48px; margin-bottom: 15px; opacity: 0.3;"></i>
+                        <p>Chưa có sản phẩm nào trong giỏ hàng</p>
+                    </div>
+                `;
+                subtotalElement.textContent = '0 ₫';
+                shippingFeeElement.textContent = '0 ₫';
+                discountElement.textContent = '0 ₫';
+                totalAmountElement.textContent = '0 ₫';
+                transferAmountElement.textContent = '0 ₫';
+                return;
+            }
+            
+            // Tính tổng tiền
+            let subtotal = 0;
+            cart.forEach(item => {
+                subtotal += item.price * item.quantity;
+            });
+            
+            // Tính phí vận chuyển (miễn phí cho đơn > 200k)
+            const shippingFee = subtotal > 200000 ? 0 : 30000;
+            
+            // Tính giảm giá (ví dụ: 10% cho đơn > 150k)
+            const discount = subtotal > 150000 ? subtotal * 0.1 : 0;
+            
+            // Tổng cộng
+            const total = subtotal + shippingFee - discount;
+            
+            // Cập nhật giao diện
+            orderItems.innerHTML = '';
+            cart.forEach(item => {
+                const orderItem = document.createElement('div');
+                orderItem.className = 'order-item';
+                orderItem.innerHTML = `
+                    <div class="order-item-img">
+                        <img src="${item.image}" alt="${item.name}">
+                    </div>
+                    <div class="order-item-info">
+                        <div class="order-item-name">${item.name}</div>
+                        <div class="order-item-price">${formatPrice(item.price)}</div>
+                        <div class="order-item-quantity">Số lượng: ${item.quantity}</div>
+                    </div>
+                `;
+                orderItems.appendChild(orderItem);
+            });
+            
+            subtotalElement.textContent = formatPrice(subtotal);
+            shippingFeeElement.textContent = formatPrice(shippingFee);
+            discountElement.textContent = formatPrice(discount);
+            totalAmountElement.textContent = formatPrice(total);
+            transferAmountElement.textContent = formatPrice(total);
+            
+            // Cập nhật số tiền cho khách hàng
+            const customerTransferAmount = document.getElementById('customerTransferAmount');
+            if (customerTransferAmount) {
+                customerTransferAmount.value = formatPrice(total);
+            }
+            
+            // Cập nhật nội dung chuyển khoản
+            updateTransferNote();
+        }
+
+        // Hàm cập nhật nội dung chuyển khoản
+        function updateTransferNote() {
+            const totalAmount = document.getElementById('totalAmount').textContent;
+            const phone = document.getElementById('phone').value || 'SĐT';
+            const transferNote = document.getElementById('transferNote');
+            
+            if (totalAmount !== '0 ₫') {
+                const note = `MochaDelight ${phone} ${totalAmount.replace(/\s/g, '')}`;
+                transferNote.value = note;
+            }
+        }
+
+        // Hàm tạo danh sách ngân hàng
+        function populateBankList() {
+            const bankList = document.getElementById('bankList');
+            bankList.innerHTML = '';
+            
+            banks.forEach(bank => {
+                const bankOption = document.createElement('div');
+                bankOption.className = 'bank-option';
+                bankOption.setAttribute('data-bank', bank.code);
+                bankOption.innerHTML = `
+                    <div class="bank-logo">${bank.shortName}</div>
+                    <div class="bank-name">${bank.name}</div>
+                `;
+                
+                bankOption.addEventListener('click', function() {
+                    // Xóa selected khỏi tất cả
+                    document.querySelectorAll('.bank-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Thêm selected cho ngân hàng được chọn
+                    this.classList.add('selected');
+                    selectedBank = bank;
+                });
+                
+                bankList.appendChild(bankOption);
+            });
+        }
+
+        // Hàm xử lý copy
+        function setupCopyButtons() {
+            document.querySelectorAll('.copy-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-copy');
+                    const targetElement = document.getElementById(targetId);
+                    const textToCopy = targetElement.textContent;
+                    
+                    // Sử dụng Clipboard API
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        // Hiển thị thông báo copy thành công
+                        const originalText = this.innerHTML;
+                        this.innerHTML = '<i class="fas fa-check"></i> Đã copy';
+                        this.style.background = '#28a745';
+                        
+                        setTimeout(() => {
+                            this.innerHTML = originalText;
+                            this.style.background = '';
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('Lỗi khi copy: ', err);
+                    });
+                });
+            });
+        }
+
+        // Hàm xử lý thanh toán
+        function processPayment(orderData) {
+            const loading = document.getElementById('loading');
+            const successMessage = document.getElementById('successMessage');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            // Hiển thị loading
+            loading.style.display = 'block';
+            submitBtn.disabled = true;
+            
+            // Giả lập gửi dữ liệu đến server
+            setTimeout(() => {
+                // Ẩn loading
+                loading.style.display = 'none';
+                
+                // Hiển thị thông báo thành công
+                let successHTML = `
+                    <i class="fas fa-check-circle" style="font-size: 24px; margin-bottom: 10px;"></i>
+                    <h3 style="margin-bottom: 10px;">Đặt hàng thành công!</h3>
+                    <p>Cảm ơn bạn đã đặt hàng. Mã đơn hàng của bạn là: <strong>MD${Date.now().toString().slice(-6)}</strong></p>
+                `;
+                
+                if (orderData.paymentMethod === 'banking') {
+                    successHTML += `
+                        <div style="background: #d1ecf1; padding: 15px; border-radius: 6px; margin-top: 15px; border-left: 4px solid #0c5460;">
+                            <h4 style="color: #0c5460; margin-bottom: 10px;">
+                                <i class="fas fa-info-circle"></i> Hướng dẫn thanh toán
+                            </h4>
+                            <p style="color: #0c5460; margin: 5px 0;">
+                                Vui lòng chuyển khoản <strong>${orderData.orderTotal}</strong> đến tài khoản ngân hàng của chúng tôi.
+                            </p>
+                            <p style="color: #0c5460; margin: 5px 0;">
+                                Nội dung: <strong>${document.getElementById('transferNote').value}</strong>
+                            </p>
+                            <p style="color: #0c5460; margin: 5px 0;">
+                                Đơn hàng sẽ được xử lý ngay khi chúng tôi nhận được thanh toán.
+                            </p>
+                        </div>
+                    `;
+                } else {
+                    successHTML += `<p>Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.</p>`;
+                }
+                
+                successMessage.innerHTML = successHTML;
+                successMessage.style.display = 'block';
+                
+                // Xóa giỏ hàng
+                localStorage.removeItem('cart');
+                cart = [];
+                
+                // Cuộn lên đầu trang để xem thông báo
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // Tự động chuyển hướng sau 8 giây (lâu hơn để khách hàng đọc hướng dẫn)
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 8000);
+                
+            }, 2000);
+        }
+
+        // Sự kiện khi trang được tải
+        document.addEventListener('DOMContentLoaded', function() {
+            // Khởi tạo danh sách ngân hàng
+            populateBankList();
+            setupCopyButtons();
+            
+            // Cập nhật tóm tắt đơn hàng
+            updateOrderSummary();
+            
+            // Kiểm tra nếu giỏ hàng trống
+            if (cart.length === 0) {
+                document.getElementById('submitBtn').disabled = true;
+                document.getElementById('submitBtn').innerHTML = '<i class="fas fa-exclamation-triangle"></i> Giỏ hàng trống';
+            }
+            
+            // Sự kiện chọn phương thức thanh toán
+            document.querySelectorAll('.payment-method').forEach(method => {
+                method.addEventListener('click', function() {
+                    // Xóa class selected khỏi tất cả
+                    document.querySelectorAll('.payment-method').forEach(m => {
+                        m.classList.remove('selected');
+                    });
+                    
+                    // Thêm class selected cho phương thức được chọn
+                    this.classList.add('selected');
+                    
+                    // Lưu phương thức thanh toán
+                    selectedPaymentMethod = this.getAttribute('data-method');
+                    document.getElementById('paymentMethod').value = selectedPaymentMethod;
+                    
+                    // Hiển thị/ẩn thông tin ngân hàng
+                    const bankingInfo = document.getElementById('bankingInfo');
+                    if (selectedPaymentMethod === 'banking') {
+                        bankingInfo.classList.add('active');
+                    } else {
+                        bankingInfo.classList.remove('active');
+                        selectedBank = null;
+                    }
+                });
+            });
+            
+            // Sự kiện thay đổi số điện thoại để cập nhật nội dung chuyển khoản
+            document.getElementById('phone').addEventListener('input', updateTransferNote);
+            
+            // Sự kiện submit form
+            document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (cart.length === 0) {
+                    alert('Giỏ hàng của bạn đang trống!');
+                    return;
+                }
+                
+                if (!selectedPaymentMethod) {
+                    alert('Vui lòng chọn phương thức thanh toán!');
+                    return;
+                }
+                
+                if (selectedPaymentMethod === 'banking') {
+                    if (!selectedBank) {
+                        alert('Vui lòng chọn ngân hàng!');
+                        return;
+                    }
+                    
+                    // Kiểm tra thông tin tài khoản khách hàng
+                    const customerAccountHolder = document.getElementById('customerAccountHolder').value.trim();
+                    const customerAccountNumber = document.getElementById('customerAccountNumber').value.trim();
+                    const customerBranch = document.getElementById('customerBranch').value.trim();
+                    
+                    if (!customerAccountHolder || !customerAccountNumber || !customerBranch) {
+                        alert('Vui lòng điền đầy đủ thông tin tài khoản của bạn!');
+                        return;
+                    }
+                }
+                
+                // Thu thập dữ liệu form
+                const formData = {
+                    customerInfo: {
+                        fullName: document.getElementById('fullName').value,
+                        phone: document.getElementById('phone').value,
+                        email: document.getElementById('email').value,
+                        address: document.getElementById('address').value,
+                        city: document.getElementById('city').value,
+                        district: document.getElementById('district').value
+                    },
+                    paymentMethod: selectedPaymentMethod,
+                    bank: selectedBank,
+                    customerBankInfo: selectedPaymentMethod === 'banking' ? {
+                        accountHolder: document.getElementById('customerAccountHolder').value,
+                        accountNumber: document.getElementById('customerAccountNumber').value,
+                        branch: document.getElementById('customerBranch').value,
+                        transferAmount: document.getElementById('customerTransferAmount').value,
+                        transferNote: document.getElementById('customerTransferNote').value
+                    } : null,
+                    notes: document.getElementById('notes').value,
+                    transferNote: document.getElementById('transferNote').value,
+                    orderItems: cart,
+                    orderTotal: document.getElementById('totalAmount').textContent
+                };
+                
+                // Xử lý thanh toán
+                processPayment(formData);
+            });
+        });
+    </script>
+</body>
+</html>
